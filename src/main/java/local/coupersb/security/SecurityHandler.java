@@ -129,7 +129,7 @@ public class SecurityHandler
 	private void validateLogin(HttpSession httpSession)
 	{
 		Boolean isLoggedIn = (Boolean) httpSession.getAttribute(SESSION_LOGIN_KEY);
-		System.out.println(isLoggedIn);
+		
 		if(isLoggedIn != null && isLoggedIn)
 			return;
 		throw new AuthenticationException("User is not logged in");
@@ -138,7 +138,7 @@ public class SecurityHandler
 	private void validateRoleAttribute(HttpSession httpSession)
 	{
 		String requestRole = (String) httpSession.getAttribute(SESSION_ROLE_KEY);
-		System.out.println(requestRole);
+		
 		if(requestRole != null)
 			return;
 		throw new AuthenticationException("User is not logged in");

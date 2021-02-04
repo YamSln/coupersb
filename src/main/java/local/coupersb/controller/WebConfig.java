@@ -25,6 +25,7 @@ public class WebConfig implements WebMvcConfigurer
         	.allowedOrigins(spaClienUrl)
         	.allowedMethods("*")
         	.allowCredentials(true);
+        System.out.println(spaClienUrl);
     }
     
     /**

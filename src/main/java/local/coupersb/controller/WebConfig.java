@@ -19,6 +19,7 @@ public class WebConfig implements WebMvcConfigurer
         registry.addMapping("/**")
         	.allowedOrigins("${spa-app.url}")
         	.allowedMethods("*")
+        	.allowedHeaders("*")
         	.allowCredentials(true);
     }
     

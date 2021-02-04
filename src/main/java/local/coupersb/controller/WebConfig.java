@@ -1,7 +1,10 @@
 package local.coupersb.controller;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.session.web.http.CookieSerializer;
+import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -25,7 +28,6 @@ public class WebConfig implements WebMvcConfigurer
         	.allowedOrigins(spaClienUrl)
         	.allowedMethods("*")
         	.allowCredentials(true);
-        System.out.println(spaClienUrl);
     }
     
     /**
@@ -39,6 +41,14 @@ public class WebConfig implements WebMvcConfigurer
 
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
+    
+    @Bean
+    public CookieSerializer cookieSerializer()
+    {
+    	DefaultCookieSerializer defaultCookieSerializer = new DefaultCookieSerializer();
+    	defaultCookieSerializer.setSameSite("None");
+    	return defaultCookieSerializer;
     }
     
 }

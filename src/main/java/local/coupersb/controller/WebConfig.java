@@ -1,5 +1,6 @@
 package local.coupersb.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -10,6 +11,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer 
 {
+	
+	@Value("${spa-app.url}")
+	private String spaClienUrl;
+	
 	/**
 	 * Allowed credentials for session based requests
 	 */
@@ -17,9 +22,8 @@ public class WebConfig implements WebMvcConfigurer
     public void addCorsMappings(CorsRegistry registry) 
     {
         registry.addMapping("/**")
-        	.allowedOrigins("${spa-app.url}")
+        	.allowedOrigins(spaClienUrl)
         	.allowedMethods("*")
-        	.allowedHeaders("*")
         	.allowCredentials(true);
     }
     

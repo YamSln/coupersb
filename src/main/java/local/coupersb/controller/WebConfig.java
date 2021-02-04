@@ -1,8 +1,10 @@
 package local.coupersb.controller;
 
+import org.apache.tomcat.util.http.SameSiteCookies;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.session.config.annotation.web.http.SpringHttpSessionConfiguration;
 import org.springframework.session.web.http.CookieSerializer;
 import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -47,8 +49,17 @@ public class WebConfig implements WebMvcConfigurer
     public CookieSerializer cookieSerializer()
     {
     	DefaultCookieSerializer defaultCookieSerializer = new DefaultCookieSerializer();
-    	defaultCookieSerializer.setSameSite("None");
+    	defaultCookieSerializer.setSameSite(SameSiteCookies.NONE.getValue());
+    	defaultCookieSerializer.setUseSecureCookie(true);
     	return defaultCookieSerializer;
+    }
+    
+    @Bean
+    public SpringHttpSessionConfiguration configuration()
+    {
+    	SpringHttpSessionConfiguration configuration = new SpringHttpSessionConfiguration();
+    	configuration.setCookieSerializer(cookieSerializer());
+    	return configuration;
     }
     
 }

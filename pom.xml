@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>local.coupersb</groupId>
 	<artifactId>coupersb</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>coupersb</name>
 	<description>Couper project with spring boot</description>
 
@@ -38,12 +38,6 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.microsoft.sqlserver</groupId>
-			<artifactId>mssql-jdbc</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 		

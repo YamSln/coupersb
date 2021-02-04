@@ -1,12 +1,13 @@
 package local.coupersb.controller;
 
-import org.apache.tomcat.util.http.SameSiteCookies;
+import org.apache.catalina.Context;
+import org.apache.tomcat.util.http.Rfc6265CookieProcessor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.session.config.annotation.web.http.SpringHttpSessionConfiguration;
-import org.springframework.session.web.http.CookieSerializer;
-import org.springframework.session.web.http.DefaultCookieSerializer;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -46,20 +47,16 @@ public class WebConfig implements WebMvcConfigurer
     }
     
     @Bean
-    public CookieSerializer cookieSerializer()
-    {
-    	DefaultCookieSerializer defaultCookieSerializer = new DefaultCookieSerializer();
-    	defaultCookieSerializer.setSameSite(SameSiteCookies.NONE.getValue());
-    	defaultCookieSerializer.setUseSecureCookie(true);
-    	return defaultCookieSerializer;
-    }
-    
-    @Bean
-    public SpringHttpSessionConfiguration configuration()
-    {
-    	SpringHttpSessionConfiguration configuration = new SpringHttpSessionConfiguration();
-    	configuration.setCookieSerializer(cookieSerializer());
-    	return configuration;
+    @Profile("prod") // Set cookies same-site attribute to None in production only
+    public ServletWebServerFactory servletContainer() {
+        return new TomcatServletWebServerFactory() {
+            @Override
+            protected void postProcessContext(Context context) {
+                Rfc6265CookieProcessor rfc6265CookieProcessor = new Rfc6265CookieProcessor();
+                rfc6265CookieProcessor.setSameSiteCookies("None");
+                context.setCookieProcessor(rfc6265CookieProcessor);
+            }
+        };
     }
     
 }
